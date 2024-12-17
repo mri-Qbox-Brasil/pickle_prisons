@@ -59,7 +59,7 @@ function DisplayStore(index)
             description = "$" .. item.required[1].amount .. " - " .. item.description
         end
         local option = {
-            title = Inventory.Items[item.name].label,
+            title = Inventory.Items[item.name] and Inventory.Items[item.name].label or 'DESCONHECIDO',
             description = description,
             onSelect = function()
                 StoreSelectItem(index, i)

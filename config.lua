@@ -101,10 +101,10 @@ Config.Default = {
 
 Config.Activities = {
     ["workout"] = {
-        label = "Workout", -- Will have Start / Stop in front of interaction.
+        label = "Treino de Academia", -- Will have Start / Stop in front of interaction.
         sections = { -- Sections for this activity.
             ["lift"] = {
-                label = "Lift Weights",
+                label = "Levantar Pesos",
                 rewards = { -- Rewards for completing the section.
                     {type = "xp", name = "strength", amount = 1000},
                 },
@@ -112,14 +112,14 @@ Config.Activities = {
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
                     SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z - 1.0)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "amb@world_human_muscle_free_weights@male@barbell@base", "base", -8.0, 8.0, -1, 1, 1.0)
                     local prop = CreateProp(`prop_curl_bar_01`, data.coords.x, data.coords.y, data.coords.z + 1.0, true, true, false)
                     local off, rot = vector3(0.0, 0.0, 0.0), vector3(0.0, 0.0, 0.0)
                     AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, 28422), off.x, off.y, off.z, rot.x, rot.y, rot.z, false, false, false, true, 2, true)
                     local result
                     for i=1, 3 do 
-                        result = lib.skillCheck({'easy', 'medium', 'easy'}, {'e'})
+                        result = lib.skillCheck({'easy', 'easy', 'easy'}, {'e'})
                         if not result then
                             break
                         end
@@ -132,7 +132,7 @@ Config.Activities = {
                 end
             },
             ["situp"] = {
-                label = "Sit-Ups",
+                label = "Agachamentos",
                 rewards = { -- Rewards for completing the section.
                     {type = "xp", name = "strength", amount = 1000},
                 },
@@ -140,11 +140,11 @@ Config.Activities = {
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
                     SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z - 1.0)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "amb@world_human_sit_ups@male@idle_a", "idle_a", -8.0, 8.0, -1, 1, 1.0)
                     local result
                     for i=1, 3 do 
-                        result = lib.skillCheck({'easy', 'medium', 'easy'}, {'e'})
+                        result = lib.skillCheck({'easy', 'easy', 'easy'}, {'e'})
                         if not result then
                             break
                         end
@@ -156,7 +156,7 @@ Config.Activities = {
                 end
             },
             ["pushup"] = {
-                label = "Pushups",
+                label = "Flexões",
                 rewards = { -- Rewards for completing the section.
                     {type = "xp", name = "strength", amount = 1000},
                 },
@@ -164,11 +164,11 @@ Config.Activities = {
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
                     SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z - 1.0)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "amb@world_human_push_ups@male@idle_a", "idle_d", -8.0, 8.0, -1, 1, 1.0)
                     local result
                     for i=1, 3 do 
-                        result = lib.skillCheck({'easy', 'medium', 'easy'}, {'e'})
+                        result = lib.skillCheck({'easy', 'easy', 'easy'}, {'e'})
                         if not result then
                             break
                         end
@@ -180,7 +180,7 @@ Config.Activities = {
                 end
             },
             ["pullup"] = {
-                label = "Pull-ups",
+                label = "Barras",
                 rewards = { -- Rewards for completing the section.
                     {type = "xp", name = "strength", amount = 1000},
                 },
@@ -188,12 +188,12 @@ Config.Activities = {
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
                     SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z - 1.0)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     TaskStartScenarioInPlace(ped, "prop_human_muscle_chin_ups", 0, -1)
                     Wait(3000)
                     local result
                     for i=1, 3 do 
-                        result = lib.skillCheck({'easy', 'medium', 'easy'}, {'e'})
+                        result = lib.skillCheck({'easy', 'easy', 'easy'}, {'e'})
                         if not result then
                             break
                         end
@@ -207,18 +207,18 @@ Config.Activities = {
         }
     },
     ["clean"] = {
-        label = "Cleaning Prison", -- Will have Start / Stop in front of interaction.
+        label = "Trabalho de Limpeza", -- Will have Start / Stop in front of interaction.
         sections = { -- Sections for this activity.
             ["sweep"] = {
-                label = "Sweep Floor",
+                label = "Limpar Chão",
                 rewards = { -- Rewards for completing the section.
-                    {type = "cash", amount = 50},
+                    {type = "cash", amount = 5},
                 },
                 process = function(data) -- Section function. 
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
-                    SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z - 1.0)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "anim@amb@drug_field_workers@rake@male_a@base", "base", -8.0, 8.0, -1, 1, 1.0)
                     local prop = CreateProp(`prop_tool_broom`, data.coords.x, data.coords.y, data.coords.z + 1.0, true, true, false)
                     local off, rot = vector3(-0.01, 0.04, -0.03), vector3(0.0, 0.0, 0.0)
@@ -233,15 +233,15 @@ Config.Activities = {
         }
     },
     ["kitchen"] = {
-        label = "Kitchen Job", -- Will have Start / Stop in front of interaction.
+        label = "Trabalho de Cozinheiro", -- Will have Start / Stop in front of interaction.
         sections = { -- Sections for this activity.
             ["stock"] = {
-                label = "Collect Ingredients",
+                label = "Coletar Ingredientes",
                 rewards = nil, -- Rewards for completing the section.
                 process = function(data) -- Section function. 
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "amb@world_human_stand_fire@male@idle_a", "idle_a", -8.0, 8.0, -1, 1, 1.0)
                     Wait(5000)
                     FreezeEntityPosition(ped, false)
@@ -250,16 +250,16 @@ Config.Activities = {
                 end
             },
             ["cook"] = {
-                label = "Cook Food",
+                label = "Cozinhar",
                 rewards = nil, -- Rewards for completing the section.
                 process = function(data) -- Section function. 
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     TaskStartScenarioInPlace(ped, "PROP_HUMAN_BBQ", 0, 1)
                     local result
                     for i=1, 3 do 
-                        result = lib.skillCheck({'easy', 'medium', 'easy'}, {'e'})
+                        result = lib.skillCheck({'easy', 'easy', 'easy'}, {'e'})
                         if not result then
                             break
                         end
@@ -271,12 +271,12 @@ Config.Activities = {
                 end
             },
             ["toppings"] = {
-                label = "Add Toppings",
+                label = "Adicionar tempero",
                 rewards = nil, -- Rewards for completing the section.
                 process = function(data) -- Section function. 
                     local ped = PlayerPedId()
                     FreezeEntityPosition(ped, true)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "amb@world_human_stand_fire@male@idle_a", "idle_a", -8.0, 8.0, -1, 1, 1.0)
                     Wait(5000)
                     FreezeEntityPosition(ped, false)
@@ -285,7 +285,7 @@ Config.Activities = {
                 end
             },
             ["delivery"] = {
-                label = "Deliver Food",
+                label = "Entregar comida",
                 rewards = {-- Rewards for completing the section.
                     {type = "cash", amount = 200},
                     {type = "xp", name = "cooking", amount = 1000},  
@@ -300,13 +300,13 @@ Config.Activities = {
                         AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, 28422), off.x, off.y, off.z, rot.x, rot.y, rot.z, false, false, false, true, 2, true)
                     end
                     FreezeEntityPosition(ped, true)
-                    SetEntityHeading(ped, data.heading)
+                    SetEntityHeading(ped, data.coords.w or data.heading)
                     PlayAnim(ped, "mini@repair", "fixing_a_ped", -8.0, 8.0, -1, 1, 1.0)
                     Wait(500)
                     DetachEntity(prop, true, true)
                     FreezeEntityPosition(prop, true)
                     PlaceObjectOnGroundProperly(prop)
-                    SetEntityHeading(prop, data.heading)
+                    SetEntityHeading(prop, data.coords.w or data.heading)
                     Wait(1000)
                     FreezeEntityPosition(ped, false)
                     ClearPedTasks(ped)
@@ -336,14 +336,14 @@ Config.Breakout = {
         local ped = PlayerPedId()
         FreezeEntityPosition(ped, true)
         SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z - 1.0)
-        SetEntityHeading(ped, data.heading)
+        SetEntityHeading(ped, data.coords.w or data.heading)
         PlayAnim(ped, "random@burial", "a_burial", -8.0, 8.0, -1, 1, 1.0)
         local prop = CreateProp(`prop_tool_shovel`, data.coords.x, data.coords.y, data.coords.z + 1.0, true, true, false)
         local off, rot = vector3(0.0, 0.0, 0.0), vector3(0.0, 0.0, 0.0)
         AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, 28422), off.x, off.y, off.z, rot.x, rot.y, rot.z, false, false, false, true, 2, true)
         local result
         for i=1, 3 do 
-            result = lib.skillCheck({'easy', 'medium', 'easy'}, {'e'})
+            result = lib.skillCheck({'easy', 'easy', 'easy'}, {'e'})
             if not result then
                 break
             end
@@ -409,68 +409,56 @@ Config.Prisons = {
             {
                 name = "workout",
                 model = {hash = `u_m_y_prisoner_01`},
-                coords = vector3(1750.0331, 2479.8518, 45.7407),
-                heading = 27.7556,
+                coords = vec4(1772.6, 2491.33, 45.82, 116.94),
                 randomSection = true, -- Chooses random section when true, or top-to-bottom when false.
                 sections = {
                     {
                         name = "lift",
-                        coords = vector3(1743.8164, 2483.1914, 45.7407),
-                        heading = 202.0358
+                        coords = vec4(1779.2, 2490.34, 45.82, 26.8)
                     },
                     {
                         name = "situp",
-                        coords = vector3(1743.3867, 2480.9863, 45.7593),
-                        heading = 123.3956
+                        coords = vec4(1778.95, 2494.45, 45.84, 21.44)
                     },
                     {
                         name = "pushup",
-                        coords = vector3(1743.8944, 2479.2173, 45.7593),
-                        heading = 119.1793
+                        coords = vec4(1775.79, 2493.29, 45.84, 204.69)
                     },
                     {
                         name = "pullup",
-                        coords = vector3(1746.5868, 2481.5996, 45.7407),
-                        heading = 118.0926
+                        coords = vec4(1775.65, 2503.05, 45.83, 205.45)
                     },
                 }
             },
             {
                 name = "clean",
                 model = {hash = `u_m_y_prisoner_01`},
-                coords = vector3(1773.9653, 2493.1362, 45.7408),
-                heading = 111.6702,
+                coords = vec4(1753.38, 2481.65, 45.82, 32.46),
                 randomSection = true, -- Chooses random section when true, or top-to-bottom when false.
                 sections = {
                     {
                         name = "sweep",
-                        coords = vector3(1767.6052, 2501.1599, 44.7407), -- Location of the cell.
-                        heading = 207.8018, -- Direction to face the player upon spawn.
+                        coords = vec4(1767.13, 2495.92, 45.82, 283.06)
                     },
                     {
                         name = "sweep",
-                        coords = vector3(1765.1724, 2498.3315, 44.7407), -- Location of the cell.
-                        heading = 207.8018, -- Direction to face the player upon spawn.
+                        coords = vec4(1771.58, 2489.14, 45.82, 152.41)
                     },
                     {
                         name = "sweep",
-                        coords = vector3(1762.1005, 2496.5417, 44.7407), -- Location of the cell.
-                        heading = 207.8018, -- Direction to face the player upon spawn.
+                        coords = vec4(1764.15, 2476.97, 45.81, 35.93)
                     },
                     {
                         name = "sweep",
-                        coords = vector3(1755.3977, 2492.9087, 44.7407), -- Location of the cell.
-                        heading = 207.8018, -- Direction to face the player upon spawn.
+                        coords = vec4(1756.32, 2479.15, 45.81, 128.09)
                     },
                     {
                         name = "sweep",
-                        coords = vector3(1752.5946, 2491.2573, 44.7407), -- Location of the cell.
-                        heading = 207.8018, -- Direction to face the player upon spawn.
+                        coords = vec4(1751.98, 2470.59, 45.81, 213.26)
                     },
                     {
                         name = "sweep",
-                        coords = vector3(1749.4236, 2489.4070, 44.7407), -- Location of the cell.
-                        heading = 207.8018, -- Direction to face the player upon spawn.
+                        coords = vec4(1742.86, 2487.73, 45.82, 25.6)
                     },
                 }
             },

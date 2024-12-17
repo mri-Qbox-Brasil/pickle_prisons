@@ -75,10 +75,10 @@ function StartSection(activityIndex, sectionIndex)
         CreateThread(function()
             while ActivityInteraction == interact do 
                 local pcoords = GetEntityCoords(PlayerPedId())
-                local dist = #(section.coords-pcoords)
+                local dist = #(vec3(section.coords.x, section.coords.y, section.coords.z)-pcoords)
                 local meters = math.ceil(dist * 1)
                 if EnableInteraction then
-                    DrawDestination(section.coords, "Activity", meters)
+                    DrawDestination(section.coords, "Tarefa principal", meters)
                 end
                 Wait(0)
             end

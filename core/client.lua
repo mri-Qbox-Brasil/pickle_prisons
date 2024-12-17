@@ -67,7 +67,7 @@ function WarpPlayer(coords, heading, cb)
         DoScreenFadeOut(1000)
         Wait(1300)
         SetEntityCoords(ped, coords.x, coords.y, coords.z)
-        SetEntityHeading(ped, heading)
+        SetEntityHeading(ped, coords.w or heading)
         Wait(200)
         DoScreenFadeIn(1000)
         if cb then cb() end
@@ -132,7 +132,7 @@ function EnsureInteractionModel(index)
         SetEntityAlpha(entity, 0, false)
     elseif data.model and (not data.model.modelType or data.model.modelType == "ped") then
         local offset = data.model.offset or vector3(0.0, 0.0, 0.0)
-        entity = CreateNPC(data.model.hash, data.coords.x + offset.x, data.coords.y + offset.y, (data.coords.z - 1.0) + offset.z, data.heading, false, true)
+        entity = CreateNPC(data.model.hash, data.coords.x + offset.x, data.coords.y + offset.y, (data.coords.z - 1.0) + offset.z, data.coords.w or data.heading, false, true)
         SetEntityInvincible(entity, true)
         SetBlockingOfNonTemporaryEvents(entity, true)
     elseif data.model and data.model.modelType == "prop" then
@@ -142,7 +142,7 @@ function EnsureInteractionModel(index)
         return
     end
     FreezeEntityPosition(entity, true)
-    SetEntityHeading(entity, data.heading)
+    SetEntityHeading(entity, data.coords.w or data.heading)
     Interactions[index].entity = entity
     return entity
 end
@@ -158,7 +158,7 @@ function SelectInteraction(index, selection)
     if not EnableInteraction then return end
     local pcoords = GetEntityCoords(PlayerPedId())
     local data = Interactions[index]
-    if #(data.coords - pcoords) > Config.InteractDistance then 
+    if #(vec3(data.coords.x, data.coords.y, data.coords.z) - pcoords) > Config.InteractDistance then 
         return ShowNotification(_L("interact_far"))
     end
     Interactions[index].selected(selection)
@@ -177,7 +177,7 @@ function CreateInteraction(data, selected)
         model = data.model,
         coords = data.coords,
         radius = data.radius or 1.0,
-        heading = data.heading,
+        heading = data.coords.w or data.heading,
     }
     if Config.UseTarget then
         Interactions[index].zone = AddTargetZone(Interactions[index].coords, Interactions[index].radius, Interactions[index].options)
@@ -219,7 +219,7 @@ Citizen.CreateThread(function()
         local wait = 1500
         for k,v in pairs(Interactions) do 
             local coords = v.coords
-            local dist = #(pcoords-coords)
+            local dist = #(pcoords - vec3(coords.x, coords.y, coords.z))
             if (dist < Config.RenderDistance) then 
                 EnsureInteractionModel(k)
                 if not Config.UseTarget then
